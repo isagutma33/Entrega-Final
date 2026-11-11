@@ -9,6 +9,12 @@ let foto;
 
 let pantalla = 0;
 let recuerdo = 0;
+let fraseSifrinita = false;
+let labialX = 100;
+let labialY = 400;
+let arrastrandoLabial = false;
+let desplazamientoLabialX = 0;
+let desplazamientoLabialY = 0;
 
 async function setup() {
   // Crea el espacio donde vamos a dibujar.
@@ -116,6 +122,94 @@ function draw() {
         75, 340
       );
     }
+    // ESCENA DE SIFRINITA
+    if (pantalla === 2) {
+
+      // Instrucción.
+      fill(80);
+      textSize(16);
+      text(
+        "Arrastra el labial hasta la franja para descubrir el mensaje.",
+        45, 175
+      );
+
+      // Fondo del espacio de baile.
+      fill(230, 202, 199);
+      rect(45, 215, 810, 250);
+
+      // Luces decorativas.
+      fill(245, 220, 180);
+      circle(180, 270, 75);
+      circle(700, 280, 100);
+
+      // Primer personaje provisional.
+      fill(45);
+      circle(350, 290, 50);
+      rect(325, 320, 50, 85, 10);
+
+      // Brazos y piernas.
+      stroke(45);
+      strokeWeight(8);
+      line(330, 335, 300, 365);
+      line(370, 335, 400, 310);
+      line(338, 400, 320, 440);
+      line(362, 400, 380, 440);
+
+      // Segundo personaje provisional.
+      noStroke();
+      fill(180, 40, 50);
+      circle(530, 290, 50);
+      rect(505, 320, 50, 85, 10);
+
+      stroke(180, 40, 50);
+      strokeWeight(8);
+      line(510, 335, 480, 310);
+      line(550, 335, 580, 365);
+      line(518, 400, 500, 440);
+      line(542, 400, 560, 440);
+      noStroke();
+
+      // Franja donde se revela la frase.
+      fill(255);
+      rect(260, 490, 550, 65, 8);
+
+      textAlign(CENTER, CENTER);
+      textSize(18);
+
+      if (fraseSifrinita === false) {
+        fill(100);
+        text("Lleva el labial hasta aquí", 535, 522);
+      } else {
+        fill(180, 40, 50);
+        text("Del baile a querer algo más.", 535, 522);
+      }
+
+      textAlign(LEFT, TOP);
+
+      // Explicación que aparece al descubrir la frase.
+      if (fraseSifrinita === true) {
+        fill(30);
+        textSize(17);
+        text(
+          "Una conexión que empieza bailando se convierte en ganas de intentar algo más.",
+          45, 580, 800, 60
+        );
+      }
+
+      // Dibujamos el labial al final para que quede encima.
+
+      // Base negra.
+      fill(30);
+      rect(labialX, labialY, 35, 65, 4);
+
+      // Parte metálica.
+      fill(195, 170, 120);
+      rect(labialX + 3, labialY - 15, 29, 20);
+
+      // Barra roja.
+      fill(190, 35, 55);
+      rect(labialX + 7, labialY - 45, 21, 35, 5);
+    }
 
     // ESCENA DE LA CURA
     if (pantalla === 1) {
@@ -218,6 +312,9 @@ function mousePressed() {
       // SIFRINITA
       else if (mouseX > 210 && mouseX < 360) {
         pantalla = 2;
+        fraseSifrinita = false;
+        labialX = 100;
+        labialY = 400;
       }
 
       // MADRID
@@ -258,6 +355,18 @@ function mousePressed() {
       }
     }
 
+    // Tomar el labial en SIFRINITA.
+    if (pantalla === 2) {
+      if (
+        mouseX > labialX && mouseX < labialX + 35 &&
+        mouseY > labialY - 45 && mouseY < labialY + 65
+      ) {
+        arrastrandoLabial = true;
+        desplazamientoLabialX = mouseX - labialX;
+        desplazamientoLabialY = mouseY - labialY;
+      }
+    }
+
     // En una canción, revisamos el botón para volver.
     if (
       mouseX > 45 && mouseX < 205 &&
@@ -265,6 +374,30 @@ function mousePressed() {
     ) {
       pantalla = 0;
       recuerdo = 0;
+      arrastrandoLabial = false;
     }
   }
+}
+
+function mouseDragged() {
+  if (arrastrandoLabial && pantalla === 2) {
+    labialX = mouseX - desplazamientoLabialX;
+    labialY = mouseY - desplazamientoLabialY;
+  }
+}
+
+function mouseReleased() {
+  if (arrastrandoLabial && pantalla === 2) {
+    const centroLabialX = labialX + 17.5;
+    const centroLabialY = labialY + 10;
+
+    if (
+      centroLabialX >= 260 && centroLabialX <= 810 &&
+      centroLabialY >= 490 && centroLabialY <= 555
+    ) {
+      fraseSifrinita = true;
+    }
+  }
+
+  arrastrandoLabial = false;
 }
