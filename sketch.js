@@ -1,5 +1,11 @@
+let foto; 
+
+function preload() {
+    foto = loadImage("assets/images.jpeg");
+}
+
 function setup() {
-   // Crea el espacio donde vamos a dibujar.
+  // Crea el espacio donde vamos a dibujar.
   // 900 es el ancho y 650 es el alto.
   createCanvas(900, 650);
 
@@ -8,10 +14,11 @@ function setup() {
 }
 
 function draw() {
-    background(20,100,200);
-}
-// Fondo 
+  // Fondo
   background(248, 242, 229);
+
+// Draw the picture at x=45, y=155, with a width and height of 300px.
+  image(foto, 45, 155, 300, 300);
 
   noStroke();
 
@@ -31,8 +38,6 @@ function draw() {
 
   // Frase de bienvenida.
   textSize(17);
-  text(
-    "Conoce sus historias a través de su música.",
-    45,
-    115
-  );
+  text("Conoce sus historias a través de su música.", 45, 115);
+
+}
