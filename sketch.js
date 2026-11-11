@@ -15,6 +15,10 @@ let labialY = 400;
 let arrastrandoLabial = false;
 let desplazamientoLabialX = 0;
 let desplazamientoLabialY = 0;
+let estrellaX = 100;
+let estrellaY = 330;
+let arrastrandoEstrella = false;
+let recorridoMadrid = 0;
 
 async function setup() {
   // Crea el espacio donde vamos a dibujar.
@@ -122,6 +126,88 @@ function draw() {
         75, 340
       );
     }
+
+    // ESCENA DE MADRID
+    if (pantalla === 3) {
+
+      fill(80);
+      textSize(16);
+      text(
+        "Toma la estrella y arrástrala hacia la derecha.",
+        45, 175
+      );
+
+      // Cielo nocturno.
+      fill(40, 45, 75);
+      rect(45, 215, 810, 280);
+
+      // Pequeños puntos de luz.
+      fill(255, 240, 195);
+      circle(100, 250, 4);
+      circle(240, 340, 5);
+      circle(380, 245, 4);
+      circle(550, 330, 4);
+      circle(680, 250, 5);
+      circle(800, 360, 4);
+
+      // Personaje izquierdo.
+      fill(230, 220, 205);
+      circle(370, 405, 35);
+      rect(350, 428, 40, 55, 8);
+
+      // Personaje derecho.
+      fill(180, 40, 50);
+      circle(530, 405, 35);
+      rect(510, 428, 40, 55, 8);
+
+      // Palabras que permanecen después de descubrirlas.
+      fill(255, 240, 195);
+      textSize(18);
+
+      if (recorridoMadrid >= 1) {
+        text("RECUERDO", 230, 360);
+      }
+
+      if (recorridoMadrid >= 2) {
+        text("REENCUENTRO", 420, 270);
+      }
+
+      if (recorridoMadrid >= 3) {
+        text("DESPEDIDA", 650, 350);
+      }
+
+      // Estrella provisional formada por dos triángulos.
+      fill(245, 205, 100);
+
+      triangle(
+        estrellaX, estrellaY - 30,
+        estrellaX - 27, estrellaY + 17,
+        estrellaX + 27, estrellaY + 17
+      );
+
+      triangle(
+        estrellaX, estrellaY + 30,
+        estrellaX - 27, estrellaY - 17,
+        estrellaX + 27, estrellaY - 17
+      );
+
+      // Texto debajo de la escena.
+      fill(30);
+      textSize(18);
+
+      if (recorridoMadrid < 3) {
+        text(
+          "Mueve la estrella para descubrir lo que dejó ese encuentro.",
+          45, 530, 800, 80
+        );
+      } else {
+        text(
+          "El regreso de esa persona demuestra que el recuerdo sigue presente, junto con la posibilidad de otra despedida.",
+          45, 530, 800, 90
+        );
+      }
+    }
+
     // ESCENA DE SIFRINITA
     if (pantalla === 2) {
 
@@ -315,11 +401,16 @@ function mousePressed() {
         fraseSifrinita = false;
         labialX = 100;
         labialY = 400;
+        arrastrandoLabial = false;
       }
 
       // MADRID
       else if (mouseX > 375 && mouseX < 525) {
         pantalla = 3;
+        estrellaX = 100;
+        estrellaY = 330;
+        recorridoMadrid = 0;
+        arrastrandoEstrella = false;
       }
 
       // 911
@@ -367,6 +458,18 @@ function mousePressed() {
       }
     }
 
+    // Tomar la estrella en MADRID.
+    if (pantalla === 3) {
+      if (
+        mouseX > estrellaX - 35 &&
+        mouseX < estrellaX + 35 &&
+        mouseY > estrellaY - 35 &&
+        mouseY < estrellaY + 35
+      ) {
+        arrastrandoEstrella = true;
+      }
+    }
+
     // En una canción, revisamos el botón para volver.
     if (
       mouseX > 45 && mouseX < 205 &&
@@ -375,29 +478,61 @@ function mousePressed() {
       pantalla = 0;
       recuerdo = 0;
       arrastrandoLabial = false;
+      arrastrandoEstrella = false;
     }
   }
 }
 
 function mouseDragged() {
-  if (arrastrandoLabial && pantalla === 2) {
+
+  // ARRASTRE DEL LABIAL EN SIFRINITA
+  if (pantalla === 2 && arrastrandoLabial === true) {
+
     labialX = mouseX - desplazamientoLabialX;
     labialY = mouseY - desplazamientoLabialY;
+
+    if (
+      mouseX > 260 && mouseX < 810 &&
+      mouseY > 490 && mouseY < 555
+    ) {
+      fraseSifrinita = true;
+    }
+
+    return false;
+  }
+
+  // ARRASTRE DE LA ESTRELLA EN MADRID
+  if (pantalla === 3 && arrastrandoEstrella === true) {
+
+    // Movemos la estrella dentro del cielo.
+    if (
+      mouseX > 80 && mouseX < 820 &&
+      mouseY > 250 && mouseY < 370
+    ) {
+      estrellaX = mouseX;
+      estrellaY = mouseY;
+
+      // Cada zona revela una parte del recuerdo.
+      // El número solo aumenta para conservar las palabras.
+
+      if (estrellaX > 250 && recorridoMadrid < 1) {
+        recorridoMadrid = 1;
+      }
+
+      if (estrellaX > 450 && recorridoMadrid < 2) {
+        recorridoMadrid = 2;
+      }
+
+      if (estrellaX > 680 && recorridoMadrid < 3) {
+        recorridoMadrid = 3;
+      }
+    }
+
+    return false;
   }
 }
 
 function mouseReleased() {
-  if (arrastrandoLabial && pantalla === 2) {
-    const centroLabialX = labialX + 17.5;
-    const centroLabialY = labialY + 10;
-
-    if (
-      centroLabialX >= 260 && centroLabialX <= 810 &&
-      centroLabialY >= 490 && centroLabialY <= 555
-    ) {
-      fraseSifrinita = true;
-    }
-  }
-
   arrastrandoLabial = false;
+  arrastrandoEstrella = false;
 }
