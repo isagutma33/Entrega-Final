@@ -42,10 +42,103 @@ function draw() {
   noStroke();
   textAlign(LEFT, TOP);
 
-  
+    // SEPARADORES: PORTADAS DE LAS CANCIONES
+  if (pantalla >= 11 && pantalla <= 15) {
+
+    // Nombre del artista.
+    fill(30);
+    textSize(16);
+    text("ALEJANDRO SAAVEDRA / SU UNIVERSO", 65, 80);
+
+    // Línea decorativa.
+    fill(180, 40, 50);
+    rect(65, 125, 770, 4);
+
+    // Título de la canción.
+    textSize(60);
+
+    if (pantalla === 11) {
+      text("LA CURA", 65, 180);
+    }
+
+    if (pantalla === 12) {
+      text("SIFRINITA", 65, 180);
+    }
+
+    if (pantalla === 13) {
+      text("MADRID", 65, 180);
+    }
+
+    if (pantalla === 14) {
+      text("911", 65, 180);
+    }
+
+    if (pantalla === 15) {
+      text("IBIZA", 65, 180);
+    }
+
+    // Introducción breve.
+    fill(30);
+    textSize(22);
+
+    if (pantalla === 11) {
+      text(
+        "Un encuentro que despierta lo que todavía se siente.",
+        65, 285, 750, 100
+      );
+    }
+
+    if (pantalla === 12) {
+      text(
+        "Todo empieza con un baile y las ganas de acercarse.",
+        65, 285, 750, 100
+      );
+    }
+
+    if (pantalla === 13) {
+      text(
+        "Un regreso, un recuerdo y la posibilidad de otra despedida.",
+        65, 285, 750, 100
+      );
+    }
+
+    if (pantalla === 14) {
+      text(
+        "Una atracción que se siente como una emergencia.",
+        65, 285, 750, 100
+      );
+    }
+
+    if (pantalla === 15) {
+      text(
+        "En medio de la fiesta, alguien destaca entre los demás.",
+        65, 285, 750, 100
+      );
+    }
+
+    // Botón para entrar a la escena.
+    fill(180, 40, 50);
+    rect(65, 440, 230, 55, 8);
+
+    fill(255);
+    textSize(17);
+    textAlign(CENTER, CENTER);
+    text("ENTRAR A LA CANCIÓN", 180, 467);
+
+    // Botón para volver al inicio.
+    fill(30);
+    rect(65, 525, 230, 45, 8);
+
+    fill(255);
+    textSize(15);
+    text("VOLVER AL INICIO", 180, 547);
+
+    // Restauramos la alineación.
+    textAlign(LEFT, TOP);
+  }
 
     // Las escenas de las canciones son las pantallas 1 a 5.
-  if (pantalla >= 1 && pantalla <= 5) {
+  if (pantalla === 0) {
     image(foto, 45, 135, 300, 300);
 
     fill(180, 40, 50);
@@ -106,7 +199,7 @@ function draw() {
     fill(80);
     textSize(13);
     text("Cinco historias distintas dentro de un mismo universo.", 45, 605);
-  } else {
+  } else if (pantalla >= 1 && pantalla <= 5) {
     fill(180, 40, 50);
     rect(45, 30, 160, 45, 8);
 
@@ -566,6 +659,29 @@ function draw() {
 
 function mousePressed() {
 
+      // Botones de los separadores.
+  if (pantalla >= 11 && pantalla <= 15) {
+
+    // Entrar a la canción.
+    if (
+      mouseX > 65 && mouseX < 295 &&
+      mouseY > 440 && mouseY < 495
+    ) {
+      pantalla = pantalla - 10;
+    }
+
+    // Regresar al inicio.
+    else if (
+      mouseX > 65 && mouseX < 295 &&
+      mouseY > 525 && mouseY < 570
+    ) {
+      pantalla = 0;
+    }
+
+    // Este clic ya fue atendido en el separador.
+    return;
+  }
+
   // Revisamos los botones si estamos en el inicio.
   if (pantalla === 0) {
 
@@ -574,12 +690,12 @@ function mousePressed() {
 
       // LA CURA
       if (mouseX > 45 && mouseX < 195) {
-        pantalla = 1;
+        pantalla = 11;
       }
 
       // SIFRINITA
       else if (mouseX > 210 && mouseX < 360) {
-        pantalla = 2;
+        pantalla = 12;
         fraseSifrinita = false;
         labialX = 100;
         labialY = 400;
@@ -588,7 +704,7 @@ function mousePressed() {
 
       // MADRID
       else if (mouseX > 375 && mouseX < 525) {
-        pantalla = 3;
+        pantalla = 13;
         estrellaX = 100;
         estrellaY = 330;
         recorridoMadrid = 0;
@@ -597,7 +713,7 @@ function mousePressed() {
 
       // 911
       else if (mouseX > 540 && mouseX < 690) {
-        pantalla = 4;
+        pantalla = 14;
         corazonX = 360;
         corazonY = 360;
         corazonEntregado = false;
@@ -606,7 +722,7 @@ function mousePressed() {
 
       // IBIZA
       else if (mouseX > 705 && mouseX < 855) {
-        pantalla = 5;
+        pantalla = 15;
         personaEncontrada = false;
       }
     }
