@@ -15,8 +15,8 @@ function draw() {
   // Fondo
   background(248, 242, 229);
 
-// Draw the picture at x=45, y=155, with a width and height of 300px.
-  image(foto, 45, 155, 300, 300);
+//Foto del artista 
+  image(foto, 45, 135, 300, 300);
 
   noStroke();
 
@@ -41,7 +41,7 @@ function draw() {
  // Texto pequeño debajo de la fotografía.
   fill(30);
   textSize(13);
-  text("ALEJANDRO / SU UNIVERSO", 60, 470);
+  text("ALEJANDRO / SU UNIVERSO", 60, 440);
 
   // Título de la presentación.
   fill(180, 40, 50);
@@ -61,6 +61,47 @@ function draw() {
   text(
     "Deseo, recuerdos, encuentros y fiestas. Escoge una canción para descubrir su historia.",
     345, 345, 490, 70
+  );
+
+  // Línea roja que separa la presentación del menú.
+  fill(180, 40, 50);
+  rect(45, 460, 810, 3);
+
+  // Título de la sección.
+  fill(30);
+  textSize(20);
+  textAlign(LEFT, TOP);
+  text("EXPLORA SUS CANCIONES", 45, 480);
+
+  // Fondos de los cinco botones.
+  fill(180, 40, 50);
+
+  rect(45, 525, 150, 50, 8);
+  rect(210, 525, 150, 50, 8);
+  rect(375, 525, 150, 50, 8);
+  rect(540, 525, 150, 50, 8);
+  rect(705, 525, 150, 50, 8);
+
+  // Nombres de las canciones.
+  fill(255);
+  textSize(16);
+  textAlign(CENTER, CENTER);
+
+  text("LA CURA", 120, 550);
+  text("SIFRINITA", 285, 550);
+  text("MADRID", 450, 550);
+  text("911", 615, 550);
+  text("IBIZA", 780, 550);
+
+  // Regresamos a la alineación anterior.
+  textAlign(LEFT, TOP);
+
+  // Frase debajo del menú.
+  fill(80);
+  textSize(13);
+  text(
+    "Cinco historias distintas dentro de un mismo universo.",
+    45, 605
   );
 
 }
