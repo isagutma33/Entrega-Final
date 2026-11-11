@@ -8,6 +8,7 @@ let foto;
 // 5 = IBIZA
 
 let pantalla = 0;
+let recuerdo = 0;
 
 async function setup() {
   // Crea el espacio donde vamos a dibujar.
@@ -103,16 +104,101 @@ function draw() {
     const canciones = ["LA CURA", "SIFRINITA", "MADRID", "911", "IBIZA"];
     text(canciones[pantalla - 1], 45, 120);
 
-    // Espacio provisional para construir cada escena.
-    fill(220, 211, 193);
-    rect(45, 200, 810, 330);
+       // Espacio provisional de las otras canciones.
+    if (pantalla > 1) {
+      fill(220, 211, 193);
+      rect(45, 200, 810, 330);
 
-    fill(80);
-    textSize(18);
-    text(
-      "Aquí irán las imágenes y los objetos de esta canción.",
-      75, 340
-    );
+      fill(80);
+      textSize(18);
+      text(
+        "Aquí irán las imágenes y los objetos de esta canción.",
+        75, 340
+      );
+    }
+
+    // ESCENA DE LA CURA
+    if (pantalla === 1) {
+
+      // Instrucción para el visitante.
+      fill(80);
+      textSize(16);
+      text("Toca una fotografía para descubrir un recuerdo.", 45, 175);
+
+      // Marcos blancos de las tres fotografías.
+      fill(255);
+      rect(60, 220, 230, 250);
+      rect(335, 220, 230, 250);
+      rect(610, 220, 230, 250);
+
+      // Espacios donde después irán las imágenes.
+      fill(210, 193, 175);
+      rect(70, 230, 210, 190);
+
+      fill(185, 160, 150);
+      rect(345, 230, 210, 190);
+
+      fill(205, 175, 165);
+      rect(620, 230, 210, 190);
+
+      // Nombres debajo de las fotografías.
+      fill(30);
+      textSize(15);
+      textAlign(CENTER, CENTER);
+
+      text("EL REENCUENTRO", 175, 445);
+      text("EL DESEO", 450, 445);
+      text("EL APEGO", 725, 445);
+
+      textAlign(LEFT, TOP);
+
+      // Una línea roja señala la fotografía seleccionada.
+      fill(180, 40, 50);
+
+      if (recuerdo === 1) {
+        rect(60, 480, 230, 4);
+      }
+
+      if (recuerdo === 2) {
+        rect(335, 480, 230, 4);
+      }
+
+      if (recuerdo === 3) {
+        rect(610, 480, 230, 4);
+      }
+
+      // Texto que aparece según la fotografía seleccionada.
+      fill(30);
+      textSize(18);
+
+      if (recuerdo === 0) {
+        text(
+          "Hay vínculos que siguen presentes en los recuerdos.",
+          60, 520, 780, 90
+        );
+      }
+
+      if (recuerdo === 1) {
+        text(
+          "Volver a ver a esa persona hace que regresen emociones que parecían guardadas.",
+          60, 520, 780, 90
+        );
+      }
+
+      if (recuerdo === 2) {
+        text(
+          "El encuentro deja ver que todavía existe atracción y ganas de acercarse.",
+          60, 520, 780, 90
+        );
+      }
+
+      if (recuerdo === 3) {
+        text(
+          "Esa persona aparece como una contradicción: un mal necesario y, al mismo tiempo, una cura.",
+          60, 520, 780, 90
+        );
+      }
+    }
   }
 }
 
@@ -152,12 +238,33 @@ function mousePressed() {
 
   } else {
 
+        // Detectamos los clics en las fotografías de LA CURA.
+    if (pantalla === 1) {
+
+      // Las tres fotografías ocupan la misma franja vertical.
+      if (mouseY > 220 && mouseY < 470) {
+
+        if (mouseX > 60 && mouseX < 290) {
+          recuerdo = 1;
+        }
+
+        else if (mouseX > 335 && mouseX < 565) {
+          recuerdo = 2;
+        }
+
+        else if (mouseX > 610 && mouseX < 840) {
+          recuerdo = 3;
+        }
+      }
+    }
+
     // En una canción, revisamos el botón para volver.
     if (
       mouseX > 45 && mouseX < 205 &&
       mouseY > 30 && mouseY < 75
     ) {
       pantalla = 0;
+      recuerdo = 0;
     }
   }
 }
