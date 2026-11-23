@@ -8,6 +8,12 @@ let fotoReencuentro;
 let fotoDeseo;
 let fotoApego;
 
+// Audio de LA CURA.
+let audioCura;
+
+// Indica si la canción está sonando.
+let curaSonando = false;
+
 // 0 = inicio
 // 1 = LA CURA
 // 2 = SIFRINITA
@@ -55,6 +61,15 @@ async function setup() {
   fotoApego = await loadImage(
     "assets/apego.jpg"
   );
+
+  // Cargar la canción LA CURA
+  audioCura = await loadSound("assets/LA CURA.mp3");
+
+  // Actualizar el botón cuando termine la canción.
+  audioCura.onended(function() {
+    curaSonando = false;
+  });
+
 }
 
 function draw() {
@@ -596,6 +611,23 @@ function draw() {
     // ESCENA DE LA CURA
     if (pantalla === 1) {
 
+      // Botón de música, arriba a la derecha.
+      fill(180, 40, 50);
+      rect(620, 30, 235, 45, 8);
+
+      fill(255);
+      textSize(15);
+      textAlign(CENTER, CENTER);
+
+      if (curaSonando === true) {
+        text("DETENER MÚSICA", 737, 52);
+      } else {
+        text("REPRODUCIR MÚSICA", 737, 52);
+      }
+
+      // Restaurar la alineación para los demás textos.
+      textAlign(LEFT, TOP);
+
       // Instrucción para el visitante.
       fill(80);
       textSize(16);
@@ -671,6 +703,30 @@ function draw() {
 
 function mousePressed() {
 
+      // Botón para detener o reproducir LA CURA.
+  if (pantalla === 1) {
+    if (
+      mouseX > 620 && mouseX < 855 &&
+      mouseY > 30 && mouseY < 75
+    ) {
+      if (audioCura) {
+
+        if (curaSonando === true) {
+          audioCura.stop();
+          curaSonando = false;
+
+        } else {
+          userStartAudio();
+          audioCura.play();
+          curaSonando = true;
+        }
+      }
+
+      // Este clic ya fue atendido.
+      return;
+    }
+  }
+
       // Botones de los separadores.
   if (pantalla >= 11 && pantalla <= 15) {
 
@@ -743,6 +799,16 @@ function mousePressed() {
 
         // Detectamos los clics en las fotografías de LA CURA.
     if (pantalla === 1) {
+
+              // Al entrar a LA CURA, empieza la música.
+      if (pantalla === 1 && audioCura) {
+        userStartAudio();
+
+        audioCura.stop();
+        audioCura.play();
+
+        curaSonando = true;
+      }
 
       // Las tres fotografías ocupan la misma franja vertical.
       if (mouseY > 220 && mouseY < 470) {
