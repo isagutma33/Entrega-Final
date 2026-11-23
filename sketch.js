@@ -3,6 +3,11 @@
 
 let foto;
 
+// Fotografías de los recuerdos de LA CURA.
+let fotoReencuentro;
+let fotoDeseo;
+let fotoApego;
+
 // 0 = inicio
 // 1 = LA CURA
 // 2 = SIFRINITA
@@ -29,14 +34,27 @@ let corazonEntregado = false;
 let personaEncontrada = false;
 
 async function setup() {
-  // Crea el espacio donde vamos a dibujar.
-  // 900 es el ancho y 650 es el alto.
+  // Tamaño del lienzo.
   createCanvas(900, 650);
 
-  // Define la tipografía de los textos.
+  // Tipografía común a todas las escenas.
   textFont("Arial");
 
+  // Foto de la página principal.
   foto = await loadImage("assets/images.jpeg");
+
+  // Fotografías de LA CURA.
+  fotoReencuentro = await loadImage(
+    "assets/reencuentro.jpg"
+  );
+
+  fotoDeseo = await loadImage(
+    "assets/deseo.jpg"
+  );
+
+  fotoApego = await loadImage(
+    "assets/apego.jpg"
+  );
 }
 
 function draw() {
@@ -583,21 +601,12 @@ function draw() {
       textSize(16);
       text("Toca una fotografía para descubrir un recuerdo.", 45, 175);
 
-      // Marcos blancos de las tres fotografías.
-      fill(255);
-      rect(60, 220, 230, 250);
-      rect(335, 220, 230, 250);
-      rect(610, 220, 230, 250);
+            // Fotografías dentro de los marcos blancos.
+      image(fotoReencuentro, 70, 230, 210, 190);
 
-      // Espacios donde después irán las imágenes.
-      fill(210, 193, 175);
-      rect(70, 230, 210, 190);
+      image(fotoDeseo, 345, 230, 210, 190);
 
-      fill(185, 160, 150);
-      rect(345, 230, 210, 190);
-
-      fill(205, 175, 165);
-      rect(620, 230, 210, 190);
+      image(fotoApego, 620, 230, 210, 190);
 
       // Nombres debajo de las fotografías.
       fill(30);
