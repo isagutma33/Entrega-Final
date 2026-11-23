@@ -1,3 +1,6 @@
+// Artista elegido: Alejandro Saavedra.
+// Álbum: El malo soy yo x tener corazón.
+
 let foto;
 
 // 0 = inicio
