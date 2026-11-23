@@ -880,6 +880,11 @@ function mousePressed() {
       mouseX > 45 && mouseX < 205 &&
       mouseY > 30 && mouseY < 75
     ) {
+              // Detener LA CURA al salir de su escena.
+      if (pantalla === 1 && audioCura) {
+        audioCura.stop();
+        curaSonando = false;
+      }
       pantalla = 0;
       recuerdo = 0;
       arrastrandoLabial = false;
